@@ -46,7 +46,6 @@ body {
   color: white;
   font-weight: 600;
   font-size: 16px;
-  transition: color 0.3s ease;
   padding-bottom: 6px;
 }
 
@@ -75,6 +74,38 @@ body {
 
 .navbar.scrolled .nav-links a::after{
   background-color: #1f2937;
+}
+
+.nav-actions {
+  position: absolute;
+  right: 70px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.search-link{
+  display: flex;
+  align-items: center;
+}
+
+.search-icon{
+  width: 40px;
+  height: 40px;
+}
+
+.login-button{
+  text-decoration: none;
+  background-color: white;
+  color: black;
+  padding: 14px 34px;
+  border-radius: 30px;
+  font-weight: 600;
+}
+
+.navbar.scrolled .login-button{
+  background-color: #1f2937;
+  color: white;
 }
 
 /* Hero */
