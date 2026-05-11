@@ -49,4 +49,3 @@ function RoomDetails() {
   );
 }
 export default RoomDetails;
-export default RoomDetails;
