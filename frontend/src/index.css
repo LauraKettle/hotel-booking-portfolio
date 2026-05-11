@@ -1,7 +1,16 @@
-body {
+*{
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+
+body {
   font-family: Arial, Helvetica, sans-serif;
-  margin: 20px;
+  background-color: #f5f7fa;
+  overflow-x: hidden;
+  
 }
 
 /* Navbar */
@@ -20,8 +29,10 @@ body {
 }
 
 .navbar.scrolled {
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur (20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .nav-links{
@@ -30,23 +41,45 @@ body {
 }
 
 .nav-links a {
+  position: relative;
   text-decoration: none;
   color: white;
   font-weight: 600;
   font-size: 16px;
   transition: color 0.3s ease;
+  padding-bottom: 6px;
 }
 
 .navbar.scrolled .nav-links a {
   color: #1f2937;
 }
 
-.nav-links a:hover {
-  opacity: 0.8;
+.nav-links a::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.navbar.scrolled .nav-links a{
+  color: #1f2937;
+}
+
+.navbar.scrolled .nav-links a::after{
+  background-color: #1f2937;
 }
 
 /* Hero */
 .hero-section {
+  width: 100%;
   min-height: 100vh;
   background-size: cover;
   background-position: center;
@@ -128,9 +161,15 @@ body {
   font-size: 17px;
 }
 
-.rating {
-  margin:0;
-  color: #f97316;
+.rating, .loaction {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-icon{
+  width: 16px;
+  height: 16px;
 }
 
 .rating span{

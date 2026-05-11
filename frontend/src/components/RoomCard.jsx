@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import starIcon from "../assets/starIcon.svg";
+import locationIcon from "../assets/locationIcon.svg";
 
 function RoomCard({room}) {
     return (
@@ -14,10 +16,12 @@ function RoomCard({room}) {
             <div className="room-card-body">
                 <h3>{room.name}</h3>
                 <p className="rating">
-                    * <span>5.0</span>
+                    <img src={starIcon} alt="Star-rating" className="card-icon" />
+                    <span>5.0</span>
                 </p>
 
                 <p className="location">
+                    <img src={locationIcon} alt="Location" className="card-icon" />
                     Rome, Italy
                 </p>
 
