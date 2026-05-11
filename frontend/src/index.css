@@ -108,6 +108,10 @@ body {
   color: white;
 }
 
+.navbar.scrolled .search-icon{
+  filter: brightness(0);
+}
+
 /* Hero */
 .hero-section {
   width: 100%;
