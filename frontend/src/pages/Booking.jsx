@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-// import "App.css";
+import "index.css";
 
 function RoomBooking() {
   const { id } = useParams();
@@ -36,13 +36,20 @@ function RoomBooking() {
   };
 
   return (
-    <div>
-      <h1>Book Room {id}</h1>
+    <div className="booking-page">
+      <div className="reservation-card">
+        <h1>Book Room {id}</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div>
+        <p>
+          Fill in your details below to reserve this room.
+        </p>
+
+        <form
+          onSubmit={handleSubmit}
+          className="reservation-form"
+        >
           <label>Full Name</label>
-          <br />
+
           <input
             type="text"
             name="fullName"
@@ -50,13 +57,9 @@ function RoomBooking() {
             onChange={handleChange}
             required
           />
-        </div>
 
-        <br />
-
-        <div>
           <label>Email</label>
-          <br />
+
           <input
             type="email"
             name="email"
@@ -64,13 +67,9 @@ function RoomBooking() {
             onChange={handleChange}
             required
           />
-        </div>
 
-        <br />
-
-        <div>
           <label>Check-in Date</label>
-          <br />
+
           <input
             type="date"
             name="checkIn"
@@ -78,13 +77,9 @@ function RoomBooking() {
             onChange={handleChange}
             required
           />
-        </div>
 
-        <br />
-
-        <div>
           <label>Check-out Date</label>
-          <br />
+
           <input
             type="date"
             name="checkOut"
@@ -92,13 +87,9 @@ function RoomBooking() {
             onChange={handleChange}
             required
           />
-        </div>
 
-        <br />
-
-        <div>
           <label>Guests</label>
-          <br />
+
           <input
             type="number"
             name="guests"
@@ -107,12 +98,15 @@ function RoomBooking() {
             onChange={handleChange}
             required
           />
-        </div>
 
-        <br />
-
-        <button type="submit">Confirm Booking</button>
-      </form>
+          <button
+            className="booking-primary-btn"
+            type="submit"
+          >
+            Confirm Booking
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
