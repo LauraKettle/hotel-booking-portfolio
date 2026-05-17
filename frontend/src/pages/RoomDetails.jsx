@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import roomImage from "../assets/hotelRoom1.avif";
-import "App.css";
+// import "App.css";
 
 function RoomDetails() {
   const { id } = useParams();
