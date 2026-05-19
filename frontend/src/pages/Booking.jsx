@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import "index.css";
+// import "index.css";
 
 function RoomBooking() {
   const { id } = useParams();
