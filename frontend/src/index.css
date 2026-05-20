@@ -136,6 +136,26 @@ body {
   color: white;
 }
 
+.burger-button {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.burger-menu{
+  width: 28px;
+  height: 28px;
+}
+
+.navbar.scrolled .burger-menu,
+.navbar.other-page .burger-menu{
+  filter: brightness(0);
+}
+
+
+
+
 /* Hero - Laura*/
 .hero-section {
   width: 100%;
@@ -466,9 +486,11 @@ body {
 
 .room-page {
   min-height: 100vh;
-  padding: 40px;
+  padding-top: 150px;
+  padding-bottom: 80px;
   background-color: #f4f1ec;
   font-family: Arial, sans-serif;
+  
 }
 
 .booking-page {
@@ -480,18 +502,18 @@ body {
 
 .booking-details-card,
 .reservation-card {
-  max-width: 1000px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1100px;
+  margin: 150px auto;
   background-color: white;
   border-radius: 16px;
+  
   padding: 30px;
+  display: flex;
+  gap: 40px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
-.booking-details-card {
-  display: flex;
-  gap: 30px;
-}
 
 .booking-room-image {
   width: 50%;
@@ -502,6 +524,9 @@ body {
 
 .booking-room-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .booking-facility-list {
@@ -612,3 +637,134 @@ input {
 button{
   padding: 8px;
 }
+
+/* Navbar media query - Laura */
+@media (max-width: 768px){
+
+.navbar {
+  justify-content: flex-end;
+  padding: 0 25px;
+}
+
+.nav-links{
+  display: none;
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  width: 220px;
+  background-color: white;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.nav-links a{
+  color: #1f2937;
+}
+
+.nav-links a::after{
+  background-color: #1f2937;
+}
+
+.nav-actions{
+  position: static;
+  gap: 18px;
+}
+
+.login-button{
+  display: none;
+}
+
+.burger-button{
+  display: block;
+}
+
+.search-icon{
+  width: 28px;
+  height: 28px;
+}
+
+.navbar .nav-links{
+  display: none !important;
+}
+
+.navbar .nav-links.active{
+  display: flex !important;
+}
+}
+/* nav bar media query end */
+
+
+/* Homepage media query - Laura */
+@media (max-width: 768px){
+
+  .hero-section{
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 100px;
+    background-position: center;
+  }
+
+  .hero-content h1{
+    font-size: 42px;
+  }
+
+  .hero-content p{
+    font-size: 16px;
+  }
+
+  .featured-hotels{
+    padding: 60px 20px;
+  }
+}
+/* homepage media query end */
+
+
+/* Rooms page media query - Laura */
+@media (max-width: 768px) {
+
+  .rooms-page {
+    padding-top: 120px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .rooms-title{
+    font-size: 34px;
+  }
+
+  .rooms-container{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .room-card{
+    width: 100%;
+    max-width: 340px;
+  }
+}
+/* rooms page media query end */
+
+
+/* Footer media query -Laura */
+@media (max-width: 768px) {
+
+  .footer{
+    flex-direction: column;
+    padding: 40px 30px;
+    text-align: center;
+  }
+
+  .footer-section{
+    width: 100%;
+  }
+
+  .social-icons{
+    justify-content: center;
+  }
+}
+
+/* footer media query end */
