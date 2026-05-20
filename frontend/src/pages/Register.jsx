@@ -7,22 +7,32 @@ function Register() {
     const [email, setEmail]= useState("");
     const [password, setPassword] = useState("");
     const [confirm_password, setPassword2] = useState("");
+    const [signup, setSigningUp] = useState(0);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-
-        if (first_name === "" || surname === "" || email === "" || password === "") {
-            alert("All fields are required");
-            return;
-        }
-        if (!email.includes("@")) {
-            alert("Please enter a valid email");
-            return;
-        }
-        else {
-            alert("Registration Successful");
-            window.location.reload();
-        }
+        const response = await fetch("http://localhost:5050/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                first_name,
+                surname,
+                email,
+                password,
+                signup
+            })
+        });
+            if (response.status === 201) {
+                alert("Registration Successful");
+            }
+            else {
+                console.log(response.status);
+                const data = await response.json();
+                console.log(data.message);
+                alert("Registration Failed");
+            }
     }
 
     return(
@@ -93,13 +103,15 @@ function Register() {
                             placeholder="**********"
                             value={password}
                             onChange={(e) => {
-                                setPassword(e.target.value);
-                                if (e.length < 6) {
-                                e.setCustomValidity("Password must be at least 6 characters");
-                                return;
+                                const new_password = e.target.value
+                                setPassword(new_password);
+                                console.log(password);
+                                console.log(e.target.value);
+                                if (new_password.length < 6) {
+                                e.target.setCustomValidity("Password must be at least 6 characters");
                                 }
                                 else {
-                                    input.setCustomValidity ("");
+                                    e.target.setCustomValidity("");
                                 }
                             }}
                             required
@@ -110,9 +122,15 @@ function Register() {
                             placeholder="**********"
                             value={confirm_password}
                             onChange={(e) => {
-                                setPassword2(e.target.value)
-                                if (e !== password) {
-                                e.setCustomValidity("Password Must be Matching")
+                                const new_confirm_password = e.target.value;
+                                setPassword2(new_confirm_password);
+                                console.log(confirm_password);
+                                console.log(e.target.value);
+                                if (new_confirm_password !== password) {
+                                    e.target.setCustomValidity("Password Must be Matching")
+                                }
+                                else {
+                                    e.target.setCustomValidity("");
                                 }
                             }}
 
@@ -123,6 +141,14 @@ function Register() {
                     <input
                     id="notification-checkbox"
                     type="checkbox"
+                    onChange={(e) => {
+                        if (e.target.checked) {
+                            setSigningUp(1);
+                        }
+                        else {
+                            setSigningUp(0);
+                        }
+                    }}
                     />
                     <p>I would like to receive marketing offers and promotional material with exclusive discounts from us via email.</p>
                 </div>
