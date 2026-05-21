@@ -1,33 +1,77 @@
 import { Link, useParams } from "react-router-dom";
-import roomImage from "../assets/hotelRoom1.avif";
-// import "index.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import hotelRoom1 from "../assets/hotelRoom1.avif";
+import hotelRoom2 from "../assets/hotelRoom2.avif";
+import hotelRoom3 from "../assets/hotelRoom3.avif";
+import hotelRoom4 from "../assets/hotelRoom4.jpg";
+import starIcon from "../assets/starIcon.svg";
 
 function RoomDetails() {
   const { id } = useParams();
 
-  const room = {
-    id: id,
-    name: "Deluxe Double Room",
-    image: roomImage,
-    price: 120,
-    capacity: 2,
-    bedType: "1 Double Bed",
-    description:
-      "A comfortable deluxe room with a private bathroom, free Wi-Fi, air conditioning, and city views.",
-    facilities: [
-      "Free Wi-Fi",
-      "Private Bathroom",
-      "TV",
-      "Air Conditioning",
-    ],
+  const [room, setRoom] = useState(null);
+  const [averageRating, setAverageRating] = useState(null);
+  const [selectedRating, setSelectedRating] = useState(0);
+
+  const roomImages = {
+    1: hotelRoom1,
+    2: hotelRoom2,
+    3: hotelRoom3,
+    4: hotelRoom4
   };
+
+  useEffect(() => {
+    async function fetchRoomDetails() {
+      try {
+        const roomResponse = await axios.get(
+          `http://localhost:5050/api/rooms/${id}`
+        );
+        setRoom(roomResponse.data);
+
+        const ratingResponse = await axios.get(
+          `http://localhost:5050/api/ratings/room/${id}`
+        );
+
+        setAverageRating(ratingResponse.data.averageRating);
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchRoomDetails();
+  }, [id]);
+
+  async function submitRating() {
+    if (selectedRating === 0) {
+      alert("Please select a rating");
+      return;
+    }
+
+    try{
+      await axios.post("http://localhost:5050/api/ratings", {
+        room_id: id,
+        user_id: 1, 
+        rating_value: selectedRating
+      });
+
+      alert("Rating submitted");
+      setSelectedRating(0);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if (!room) {
+    return <h1>Loading room details...</h1>;
+  }
 
   return (
     <div className="booking-page">
       <div className="booking-details-card">
         <img
           className="booking-room-image"
-          src={room.image}
+          src={roomImages[room.id]}
           alt={room.name}
         />
 
@@ -37,28 +81,60 @@ function RoomDetails() {
           <h2>€{room.price} per night</h2>
 
           <p>
-            <strong>Capacity:</strong> {room.capacity} guests
+            <strong>Location:</strong> {room.location} 
           </p>
 
           <p>
-            <strong>Bed Type:</strong> {room.bedType}
+            <strong>Description</strong> {" "} 
+            {room.description}
           </p>
-
-          <p>{room.description}</p>
 
           <h3>Facilities</h3>
 
           <ul className="booking-facility-list">
-            {room.facilities.map((facility, index) => (
-              <li key={index}>{facility}</li>
-            ))}
+             <li>Free Wi-Fi</li>
+              <li>Private Bathroom</li>
+             <li>TV</li>
+             <li>Air Conditioning</li>
           </ul>
 
-          <Link to={`/rooms/${room.id}/book`}> {/* Should this be <Link to="/booking" */}
-            <button className="booking-primary-btn">
+          <div className="rating-section">
+            <h3>Room Rating</h3>
+            <p>
+              Average Rating:{" "}
+              {averageRating ? `${averageRating} / 5` : "No Ratings yet"}
+            </p>
+
+            <div className="star-buttons">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                key={star}
+                  type="button"
+                  className="star-button"
+                  onClick={() => setSelectedRating(star)}>
+                    <img src={starIcon}
+                         alt="star"
+                         className={selectedRating >= star ? "rating-star selected-star" : "rating-star"} />
+                </button>
+              ))}
+            </div>
+
+              <button
+                type="button"
+                onClick={submitRating}
+                className="booking-primary-btn rating-submit-btn">
+                  Submit Rating
+
+              </button>
+
+          </div>
+
+
+          <Link to={"/booking"}
+           className="booking-primary-btn">
               Book This Room
-            </button>
-          </Link>
+           </Link>
+          
         </div>
       </div>
     </div>

@@ -26,30 +26,34 @@ const pool = await mysql.createPool({
 const rooms = [
         {
         id: 1, 
-        name: "standard room",
+        name: "Standard Room",
         location: "Rome, Italy",
-        price: 120
+        price: 120,
+        description: "A Room With a Double bed, in the heart of Rome. Walking distance to all major attractions."
         },
 
         {
             id: 2, 
             name: "Deluxe Room",
             location: "Paris, France",
-            price: 200
+            price: 200,
+            description: "A room with a King size bed, in the heart of Paris. Within walking distance to metro and all major attractions."
         },
 
         {
             id: 3,
             name: "Family Room",
             location: "Lisbon, Portugal",
-            price: 250
+            price: 250,
+            description: "A room with a double bed and 2 single beds. Close to all major attractions."
         },
 
         {
             id: 4, 
             name: "Double Room",
             location: "coasta Brava, Spain",
-            price: 175
+            price: 175,
+            description: "A room with a double room right on the beach. This room has a balcony with a sea view. "
         }
     ];
 
@@ -66,7 +70,7 @@ app.get("/", (req, res) => {
     res.json(rooms);
 });
 
-//single room
+//single room :id
 
 app.get("/api/rooms/:id", (req, res) => {
      const roomId = Number(req.params.id);
@@ -82,6 +86,62 @@ app.get("/api/rooms/:id", (req, res) => {
      res.json(room);
 
 });
+
+//GET room ratings
+app.get("/api/ratings/room/:id", (req, res) => {
+
+    const roomId = req.params.id;
+
+    const sql = 
+    `SELECT AVG(rating_value) AS averageRating
+    FROM ratings
+    WHERE room_id = ?`;
+
+    db.query(sql, [roomId], (err, results) => {
+
+        if (err) {
+            return res.status(500).json({
+                message: "Database error"
+            });
+        }
+        res.json({
+            averageRating: Number(results[0].averageRating).toFixed(1)
+        });
+    });
+});
+
+//POST room ratings
+app.post("/api/ratings", (req, res) => {
+    const {
+        room_id,
+        user_id,
+        rating_value
+    } =req.body;
+
+    const sql = `
+    INSERT INTO ratings
+    (room_id, user_id, rating_value)
+    VALUES (?, ?, ?)`;
+
+    db.query(
+        sql,
+        [room_id, user_id, rating_value],
+        (err, result) => {
+            if (err) {
+                return res.status(500).json({
+                    message: "Database error"
+                });
+            }
+
+            res.status(201).json({
+                message: "Rating added successfully"
+            });
+
+        
+        }
+    );
+});
+
 //registration
 app.post('/api/register', async (req, res) => {
   const { first_name, surname, email, password, signup } = req.body;
