@@ -86,7 +86,7 @@ app.get("/api/rooms/:id", (req, res) => {
 app.post('/api/register', async (req, res) => {
   const { first_name, surname, email, password, signup } = req.body;
   const hash_password = await bcrypt.hash(password, 10);
-  await pool.query('INSERT INTO users (firstname, surname, email, user_password, newsletter) VALUES (?, ?, ?, ?, ?)', [first_name, surname, email, password, signup]);
+  await pool.query('INSERT INTO users (firstname, surname, email, user_password, newsletter) VALUES (?, ?, ?, ?, ?)', [first_name, surname, email, hash_password, signup]);
   res.sendStatus(201);
 });   
 //start server
