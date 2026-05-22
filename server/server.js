@@ -66,25 +66,31 @@ app.get("/", (req, res) => {
 
 //rooms API
 
- app.get("/api/rooms", (req, res) => {
-    res.json(rooms);
+ app.get("/api/rooms", async (req, res) => {
+    try {
+        const [rooms] = await pool.query("SELECT * FROM rooms");
+        res.json(rooms);
+    } catch (error) {
+        res.status(500).json({ message: "Database error"});
+    }
 });
 
 //single room :id
 
 app.get("/api/rooms/:id", (req, res) => {
-     const roomId = Number(req.params.id);
+    try{
+        const [rooms] = await pool.query(
+            "SELECT * FROM rooms WHERE id = ?",
+            [req.params.id]
+        );
 
-    const room = rooms.find((room) => room.id === roomId);
-
-     if (!room) {
-        return res.status(404).json({
-            message: "Room not found"
-        });
+        if (rooms.length === 0) {
+            return res.status(404).json({ message: "Room not found"});
+        }
+        res.json(rooms[0]);
+    } catch (error) {
+        res.status(500).json({message: "Database error"});
     }
-
-     res.json(room);
-
 });
 
 //GET room ratings
@@ -97,7 +103,7 @@ app.get("/api/ratings/room/:id", (req, res) => {
     FROM ratings
     WHERE room_id = ?`;
 
-    db.query(sql, [roomId], (err, results) => {
+    pool.query(sql, [roomId], (err, results) => {
 
         if (err) {
             return res.status(500).json({
@@ -123,7 +129,7 @@ app.post("/api/ratings", (req, res) => {
     (room_id, user_id, rating_value)
     VALUES (?, ?, ?)`;
 
-    db.query(
+    pool.query(
         sql,
         [room_id, user_id, rating_value],
         (err, result) => {
