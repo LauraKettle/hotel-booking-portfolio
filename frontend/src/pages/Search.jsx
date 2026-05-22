@@ -1,25 +1,50 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 function Search() {
-    const [searchText, setSearchText] = useState("");
-    
-    function handleSearch(e){
-        e.preventDefault();
 
-        if (searchText === ""){
-            alert("Please enter a hotel or destination");
+    const [searchText, setSearchText] = useState("");
+    const navigate = useNavigate();
+
+    async function handleSearch(e){
+        e.preventDefault();
+        if (searchText.trim() === ""){
+            alert("Please enter a hotel name or destination");
             return;
         }
 
-        alert(`Searching for: ${searchText}`);
+        try {
+            const response = await axios.get(
+                "http://localhost:5050/api/rooms"
+            );
+
+            const rooms = response.data;
+            const searchValue = searchText.toLowerCase();
+            const foundRoom = rooms.find((room) => {
+
+                return(
+                    room.name.toLowerCase().includes(searchValue) ||
+                    room.location.toLowerCase().includes(searchValue)
+                );
+            });
+
+            if (foundRoom) {
+                navigate(`/rooms/${foundRoom.id}`);
+            } else{
+                alert("No room or destination found. Please try again.");
+            }
+        } catch (error) {
+            console.log(error);
+            alert("Something went wrong with the search.");
+        }
     }
+    
 
 return(
    <>
-   <Navbar />
+   
 
    <div className="search-page">
     <div className="search-card">
