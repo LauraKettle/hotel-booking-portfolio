@@ -157,7 +157,7 @@ app.post('/api/login', async (req, res) => {
         return res.status(401).send("Username not found. Please register with us before attempting login!");
     }
     user = users[0];
-    const match = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.user_password);
     if (!match) {
         return res.status(401).send("Password is incorrect");
     }
