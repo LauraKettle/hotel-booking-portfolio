@@ -77,10 +77,10 @@ app.get("/", (req, res) => {
 
 //single room :id
 
-app.get("/api/rooms/:id", (req, res) => {
+app.get("/api/rooms/:id", async (req, res) => {
     try{
         const [rooms] = await pool.query(
-            "SELECT * FROM rooms WHERE id = ?",
+            "SELECT * FROM rooms WHERE room_id = ?",
             [req.params.id]
         );
 

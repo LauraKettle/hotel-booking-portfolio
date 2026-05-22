@@ -1,4 +1,4 @@
-import rooms from "../data/rooms";
+
 import RoomCard from "../components/RoomCard";
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import hotelRoom3 from "../assets/hotelRoom3.avif";
 import hotelRoom4 from "../assets/hotelRoom4.jpg";
 
 function Rooms(){
-    const [rooms, setrooms] = useState([]);                //stores room data from API
+    const [rooms, setRooms] = useState([]);                //stores room data from API
 
     const roomImages = {                                    //adding the room images
         1: hotelRoom1, 
@@ -25,7 +25,7 @@ function Rooms(){
                     "http://localhost:5050/api/rooms"
                 );
 
-                setrooms(response.data);                    //stores the API data into React state
+                setRooms(response.data);                    //stores the API data into React state
             } catch (error) {
                 console.log(error);
             }
@@ -37,14 +37,14 @@ function Rooms(){
 
     return(
         <>
-        <Navbar />
+        
 
         <div className="rooms-page">
             <h1 className="rooms-title">Available Rooms</h1>
 
             <div className="rooms-container">
                 {rooms.map((room) => (
-                    <RoomCard key={room.id} room={{...room, image: roomImages[room.id]}} />
+                    <RoomCard key={room.room_id} room={{...room, id: room.room_id, image: roomImages[Number(room.room_id)]}} />
                 ) )}
             </div>
         </div>

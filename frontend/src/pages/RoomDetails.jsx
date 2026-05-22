@@ -71,12 +71,12 @@ function RoomDetails() {
       <div className="booking-details-card">
         <img
           className="booking-room-image"
-          src={roomImages[room.id]}
-          alt={room.name}
+          src={roomImages[room.room_id]}
+          alt={room.name || room.room_name}
         />
 
         <div className="booking-room-info">
-          <h1>{room.name}</h1>
+          <h1>{room.name || room.room_name}</h1>
 
           <h2>€{room.price} per night</h2>
 

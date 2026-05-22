@@ -6,7 +6,7 @@ function RoomCard({room}) {
     return (
         <div className="room-card">
             <div className="image-box">
-                {room.bestSeller && (
+                {Number(room.bestSeller) === 1 && (
                     <span className="badge">Best Seller</span>
                 )}
 
