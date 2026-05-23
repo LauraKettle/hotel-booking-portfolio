@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BackImage from "../assets/HotelLobby.png";
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -19,9 +20,10 @@ function Login() {
             });
             if (response.status === 200) {
                 const data = await response.json();
-                localStorage.setItem("user", JSON.stringify(data.user));
-                console.log(localStorage.getItem("user"))
+                sessionStorage.setItem("user", JSON.stringify(data.user));
+                console.log(sessionStorage.getItem("user"))
                 alert("Login Successful");
+                navigate("/dashboard");
             }
             else {
                 const message = await response.text();

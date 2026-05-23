@@ -16,7 +16,7 @@ function Dashboard() {
     ];
 
     useEffect(() => {
-        const savedUser = localStorage.getItem("user");
+        const savedUser = sessionStorage.getItem("user");
 
         if(savedUser) {
             setCurrentUser(JSON.parse(savedUser));

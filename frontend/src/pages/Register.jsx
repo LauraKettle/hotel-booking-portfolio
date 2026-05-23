@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
     const [first_name, setFirstName] = useState("");
@@ -8,7 +8,8 @@ function Register() {
     const [password, setPassword] = useState("");
     const [confirm_password, setPassword2] = useState("");
     const [signup, setSigningUp] = useState(0);
-
+    const navigate = useNavigate();
+    
     async function handleSubmit(e) {
         e.preventDefault();
         const response = await fetch("http://localhost:5050/api/register", {
@@ -26,6 +27,7 @@ function Register() {
         });
             if (response.status === 201) {
                 alert("Registration Successful");
+                navigate("/login");
             }
             else {
                 console.log(response.status);
