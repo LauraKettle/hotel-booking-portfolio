@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 function Dashboard() {
     const [currentUser, setCurrentUser] = useState(null);
 
@@ -27,12 +27,11 @@ function Dashboard() {
         return (
             <div className="dashboard-page">
                 <h1>Dashboard</h1>
-                <p>Please log in to view your dashboard.</p>
+                <p>Please <Link to="/login">Login</Link> to view your dashboard. If you do not have an account yet, please <Link to="/register"> Register now</Link>!</p>
 
             </div>
         );
     }
-
     return (
         <div className="dashboard-page">
             <section className="dashboard-profile-card">
