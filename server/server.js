@@ -233,6 +233,33 @@ app.post("/api/bookings", async (req, res) => {
     }
 });
 
+//get booking for one user
+app.get("/api/bookings/user/:userId", async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const [bookings] = await pool.query(
+            `SELECT
+            hotel_bookings.booking_id,
+            hotel_bookings.check_in,
+            hotel_bookings.check_out,
+            hotel_bookings.guests,
+            rooms.name,
+            rooms.location,
+            rooms.price
+            FROM hotel_bookings
+            JOIN rooms ON hotel_bookings.room_id = rooms.room_id
+            WHERE hotel_bookings.user_id = ?`,
+            [userId]
+        );
+        res.json(bookings);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Database error while fetching bookings"
+        });
+    }
+});
+
 //start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
