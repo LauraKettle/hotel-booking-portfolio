@@ -159,14 +159,19 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+
     if (users.length === 0) {
         return res.status(401).send("Username not found. Please register with us before attempting login!");
     }
+
     const login_user = users[0];
+
     const match = await bcrypt.compare(password, login_user.user_password);
+
     if (!match) {
         return res.status(401).send("Password is incorrect. Please try again!");
     }
+
     return res.status(200).json({
         message: "Login successful",
         user: {
@@ -175,11 +180,60 @@ app.post('/api/login', async (req, res) => {
             firstname: login_user.firstname,
             surname: login_user.surname
         }
-    })
-})
-//start server
+    });
+});
 
+//Create booking API
+app.post("/api/bookings", async (req, res) => {
+    try {
+        const {
+            user_id,
+            room_id,
+            check_in,
+            check_out,
+            guests
+        } = req.body;
+
+        if (
+            !user_id ||
+            !room_id ||
+            !check_in ||
+            !check_out ||
+            !guests
+        ) {
+            return res.status(400).json({
+                message: "All booking fields are required"
+            });
+        }
+
+        const [result] = await pool.query(
+            `INSERT INTO hotel_bookings
+            (user_id, room_id, check_in, check_out, guests)
+            VALUES (?, ?, ?, ?, ?)`,
+            [
+                user_id,
+                room_id,
+                check_in,
+                check_out,
+                guests
+            ]
+        );
+
+        res.status(201).json({
+            message: "Booking created successfully",
+            booking_id: result.insertId
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Database error while creating booking"
+        });
+    }
+});
+
+//start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
