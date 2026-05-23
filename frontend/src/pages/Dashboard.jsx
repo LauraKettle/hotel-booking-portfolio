@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 function Dashboard() {
     const [currentUser, setCurrentUser] = useState(null);
-
+    const [bookings_array, setBookings] = useState([]);
     const bookings = [
         {
             booking_id: 1,
@@ -20,6 +20,12 @@ function Dashboard() {
 
         if(savedUser) {
             setCurrentUser(JSON.parse(savedUser));
+            async function fetchBookings() {
+                const response = await fetch("http://localhost:5050/api/bookings/user/${currentUser.id}");
+                const data = await response.json();
+                setBookings(data);
+            }
+            fetchBookings();
         }
     }, []);
 
@@ -52,7 +58,7 @@ function Dashboard() {
                 <h2>Your Bookings</h2>
 
                 <div className="dashboard-bookings-grid">
-                    {bookings.map((booking) => (
+                    {bookings_array.map((booking) => (
                         <div className="booking-card" key={booking.booking_id}>
                             <h3>{booking.name}</h3>
                             <p>{booking.location}</p>
