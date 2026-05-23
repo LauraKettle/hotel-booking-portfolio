@@ -162,21 +162,21 @@ app.post('/api/login', async (req, res) => {
     if (users.length === 0) {
         return res.status(401).send("Username not found. Please register with us before attempting login!");
     }
-    user = users[0];
-    const match = await bcrypt.compare(password, user.user_password);
+    const login_user = users[0];
+    const match = await bcrypt.compare(password, login_user.user_password);
     if (!match) {
-        return res.status(401).send("Password is incorrect");
+        return res.status(401).send("Password is incorrect. Please try again!");
     }
     return res.status(200).json({
         message: "Login successful",
         user: {
-            id: user.id,
-            email: user.email,
-            firstname: user.firstname,
-            surname: user.surname
+            id: login_user.user_id,
+            email: login_user.email,
+            firstname: login_user.firstname,
+            surname: login_user.surname
         }
     })
-})   
+})
 //start server
 
 app.listen(PORT, () => {

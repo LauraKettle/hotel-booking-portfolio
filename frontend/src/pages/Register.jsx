@@ -29,8 +29,6 @@ function Register() {
             }
             else {
                 console.log(response.status);
-                const data = await response.json();
-                console.log(data.message);
                 alert("Registration Failed");
             }
     }
