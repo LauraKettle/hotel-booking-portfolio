@@ -711,6 +711,7 @@ body {
 }
 /* Registration/Login Pages */
 .registration_login-form {
+  margin-top:50px;
   display:flex;
   justify-content:center;
 }
