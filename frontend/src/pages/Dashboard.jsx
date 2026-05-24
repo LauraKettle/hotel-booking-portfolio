@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 function Dashboard() {
     const [currentUser, setCurrentUser] = useState(null);
     const [bookings, setBookings] = useState([]);
-    
-    
+
+
 
     useEffect(() => {
         const savedUser = sessionStorage.getItem("user");
@@ -21,7 +21,7 @@ function Dashboard() {
                 } catch (error){
                     console.log(error);
                 }
-                
+
                 console.log(data)
             }
             fetchBookings();
