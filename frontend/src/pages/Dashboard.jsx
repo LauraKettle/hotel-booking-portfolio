@@ -24,6 +24,7 @@ function Dashboard() {
                 const response = await fetch("http://localhost:5050/api/bookings/user/${currentUser.id}");
                 const data = await response.json();
                 setBookings(data);
+                console.log(data)
             }
             fetchBookings();
         }
