@@ -20,15 +20,19 @@ function Dashboard() {
 
         if(savedUser) {
             setCurrentUser(JSON.parse(savedUser));
+        }
+    }, []);
+    useEffect(() => {
+        if (currentUser){
             async function fetchBookings() {
-                const response = await fetch("http://localhost:5050/api/bookings/user/${currentUser.id}");
+                const response = await fetch(`http://localhost:5050/api/bookings/user/${currentUser.id}`);
                 const data = await response.json();
                 setBookings(data);
                 console.log(data)
             }
             fetchBookings();
         }
-    }, []);
+    })
 
     if (!currentUser) {
         return (
