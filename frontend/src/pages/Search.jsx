@@ -25,8 +25,8 @@ function Search() {
             const foundRoom = rooms.find((room) => {
 
                 return(
-                    room.name.toLowerCase().includes(searchValue) ||
-                    room.location.toLowerCase().includes(searchValue)
+                    room.name?.toLowerCase().includes(searchValue) ||
+                    room.location?.toLowerCase().includes(searchValue)
                 );
             });
 

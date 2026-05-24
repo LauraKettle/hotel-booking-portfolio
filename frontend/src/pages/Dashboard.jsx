@@ -21,6 +21,8 @@ function Dashboard() {
                 } catch (error){
                     console.log(error);
                 }
+
+                
             }
             fetchBookings();
         }
@@ -64,16 +66,19 @@ function Dashboard() {
                             <h3>{booking.name}</h3>
                             <p>{booking.location}</p>
                             <p>
-                                <strong>Check-in:</strong> {booking.check_in}
+                                <strong>Check-in:</strong> {booking.check_in.split("T")[0]}
                             </p>
                             <p>
-                                <strong>Check-out:</strong> {booking.check_out}
+                                <strong>Check-out:</strong> {booking.check_out.split("T")[0]}
+                            </p>
+                            <p>
+                                <strong>Guests:</strong> {booking.guests}
                             </p>
                             <p>
                                 <strong>Price:</strong> €{booking.price} per night
                             </p>
 
-                            <span>{booking.status}</span>
+                            <span>Confirmed</span>
                         </div>
                     ))}
 

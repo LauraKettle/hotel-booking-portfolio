@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-// import "index.css";
+import axios from "axios";
+
 
 function RoomBooking() {
   const { id } = useParams();
@@ -22,17 +23,34 @@ function RoomBooking() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    const savedUser = sessionStorage.getItem("user");
 
-    const bookingData = {
-      roomId: id,
-      ...formData,
-    };
+    if (!savedUser) {
+      alert("Please log in before booking");
+      return;
+    }
 
-    console.log("Booking submitted:", bookingData);
+    const currentUser = JSON.parse(savedUser);
 
-    alert("Booking submitted successfully!");
+    try {
+      await axios.post("http://localhost:5050/api/bookings", {
+        user_id: currentUser.id,
+        room_id: id,
+        check_in: formData.checkIn,
+        check_out: formData.checkOut,
+        guests: formData.guests
+      });
+      
+      alert("Booking submitted successfully!");
+
+    } catch (error) {
+      console.log(error);
+      alert("Booking failed");
+    }
+
   };
 
   return (
