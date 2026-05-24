@@ -48,14 +48,26 @@ function RoomDetails() {
       return;
     }
 
+    const savedUser = sessionStorage.getItem("user");
+
+    if (!savedUser){
+      alert("Please log in to submit a rating");
+    }
+
+    const currentUser = JSON.parse(savedUser);
+
     try{
       await axios.post("http://localhost:5050/api/ratings", {
         room_id: id,
-        user_id: 1, 
+        user_id: currentUser.id,
         rating_value: selectedRating
       });
 
       alert("Rating submitted");
+      const ratingResponse = await axios.get(
+        `http://localhost:5050/api/ratings/room/${id}`
+      );
+      setAverageRating(ratingResponse.data.averageRating);
       setSelectedRating(0);
     } catch (error) {
       console.log(error);
@@ -130,12 +142,11 @@ function RoomDetails() {
           </div>
 
 
-       <Link to={`/booking/${room.id}`}>
-  <button className="booking-primary-btn">
-    Book This Room
-  </button>
-</Link>
-          
+          <Link to={`/booking/${id}`}
+           className="booking-primary-btn">
+              Book This Room
+           </Link>
+
         </div>
       </div>
     </div>

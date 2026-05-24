@@ -2,28 +2,26 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 function Dashboard() {
     const [currentUser, setCurrentUser] = useState(null);
-    const [bookings_array, setBookings] = useState([]);
-    const bookings = [
-        {
-            booking_id: 1,
-            room_name: "Family Room",
-            location: "Lisbon, Portugal",
-            check_in: "2026-06-10",
-            check_out: "2026-06-14",
-            status: "Confirmed",
-            price: 250
-        }
-    ];
+    const [bookings, setBookings] = useState([]);
+    
+    
 
     useEffect(() => {
         const savedUser = sessionStorage.getItem("user");
 
         if(savedUser) {
-            setCurrentUser(JSON.parse(savedUser));
+            const user = JSON.parse(savedUser);
+            setCurrentUser(user);
+
             async function fetchBookings() {
-                const response = await fetch("http://localhost:5050/api/bookings/user/${currentUser.id}");
-                const data = await response.json();
-                setBookings(data);
+                try{
+                    const response = await fetch(`http://localhost:5050/api/bookings/user/${user.id}`);
+                    const data = await response.json();
+                    setBookings(data);
+                } catch (error){
+                    console.log(error);
+                }
+                
                 console.log(data)
             }
             fetchBookings();
@@ -58,11 +56,18 @@ function Dashboard() {
             <section className="dashboard-bookings-section">
                 <h2>Your Bookings</h2>
 
+                {bookings.length === 0 ? (
+                    <p>You have no bookings yet.</p>
+                ) : (
+
                 <div className="dashboard-bookings-grid">
-                    {bookings_array.map((booking) => (
+                    {bookings.map((booking) => (
                         <div className="booking-card" key={booking.booking_id}>
                             <h3>{booking.name}</h3>
                             <p>{booking.location}</p>
+                            <p>
+                                <strong>Check-in:</strong> {booking.check_in}
+                            </p>
                             <p>
                                 <strong>Check-out:</strong> {booking.check_out}
                             </p>
@@ -75,7 +80,7 @@ function Dashboard() {
                     ))}
 
                 </div>
-
+                )}
             </section>
         </div>
     );

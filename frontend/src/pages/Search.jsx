@@ -31,7 +31,7 @@ function Search() {
             });
 
             if (foundRoom) {
-                navigate(`/rooms/${foundRoom.id}`);
+                navigate(`/rooms/${foundRoom.room_id}`);
             } else{
                 alert("No room or destination found. Please try again.");
             }

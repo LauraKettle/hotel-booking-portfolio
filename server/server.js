@@ -94,58 +94,52 @@ app.get("/api/rooms/:id", async (req, res) => {
 });
 
 //GET room ratings
-app.get("/api/ratings/room/:id", (req, res) => {
+app.get("/api/ratings/room/:id",  async (req, res) => {
+    try{
+        const roomId = req.params.id;
 
-    const roomId = req.params.id;
+        console.log("Fetching rating for room:", roomId);
 
-    const sql = 
-    `SELECT AVG(rating_value) AS averageRating
-    FROM ratings
-    WHERE room_id = ?`;
+        const [results] = await pool.query(
+            `SELECT AVG(rating_value) AS averageRating
+            FROM ratings
+            WHERE room_id = ?`,
+            [roomId]
+        );
 
-    pool.query(sql, [roomId], (err, results) => {
+        console.log("Rating results:", results);
 
-        if (err) {
-            return res.status(500).json({
-                message: "Database error"
-            });
-        }
         res.json({
-            averageRating: Number(results[0].averageRating).toFixed(1)
+            averageRating: results[0].averageRating
+            ? Number(results[0].averageRating).toFixed(1)
+            : null
         });
+    } catch (error) {
+        console.log("Rating route error:", error);
+
+            res.status(500).json({ message: "Database error while fetching rating"});
+        }
+    
     });
-});
 
 //POST room ratings
-app.post("/api/ratings", (req, res) => {
-    const {
-        room_id,
-        user_id,
-        rating_value
-    } =req.body;
+app.post("/api/ratings", async (req, res) => {
+    try {
+        const { room_id, user_id, rating_value } =req.body;
 
-    const sql = `
-    INSERT INTO ratings
-    (room_id, user_id, rating_value)
-    VALUES (?, ?, ?)`;
+        await pool.query(
+             `INSERT INTO ratings (room_id, user_id, rating_value)
+                VALUES (?, ?, ?)`,
+                [room_id, user_id, rating_value]
+        );
 
-    pool.query(
-        sql,
-        [room_id, user_id, rating_value],
-        (err, result) => {
-            if (err) {
-                return res.status(500).json({
-                    message: "Database error"
-                });
-            }
-
-            res.status(201).json({
-                message: "Rating added successfully"
-            });
-
-        
-        }
-    );
+        res.status(201).json({
+            message: "Rating added successfully"
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Database error "});
+    }
 });
 
 //registration
