@@ -2,10 +2,38 @@ import React from 'react';
 import heroImage from "../assets/heroBackground.png";
 import Navbar from '../components/Navbar';
 import RoomCard from "../components/RoomCard";
-import rooms from '../data/rooms';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import hotelRoom1 from "../assets/hotelRoom1.avif";
+import hotelRoom2 from "../assets/hotelRoom2.avif";
+import hotelRoom3 from "../assets/hotelRoom3.avif";
+import hotelRoom4 from "../assets/hotelRoom4.jpg";
 
 
 function Home(){
+
+  const [rooms, setRooms] = useState([]);
+
+  const roomImages = {                                    
+    1: hotelRoom1, 
+    2: hotelRoom2, 
+    3: hotelRoom3,
+    4: hotelRoom4
+  };
+
+  useEffect(() => {
+    async function fetchRooms() {
+      try {
+        const response = await axios.get("http://localhost:5050/api/rooms");
+        setRooms(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchRooms();
+  }, []);
+
   return (
     <>
     
@@ -24,7 +52,7 @@ function Home(){
 
       <section className='featured-hotels'>
         {rooms.map((room) => (
-          <RoomCard key={room.id} room={room} />
+          <RoomCard key={room.id} room={{...room, id: room.room_id, image: roomImages[Number(room.room_id)]}} />
         ))}
 
       </section>
