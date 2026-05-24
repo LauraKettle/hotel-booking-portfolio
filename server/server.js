@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 const pool = await mysql.createPool({
     host: process.env.DB_HOST || 'autorack.proxy.rlwy.net',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'qwNyKJGVMdwWFloMAuFRWzSmtmlktvjS',
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE || 'railway',
     port: process.env.DB_PORT || 17745
 });
@@ -186,7 +186,7 @@ app.post('/api/register', async (req, res) => {
 //login
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
-    const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+    const [users] = await pool.query('SELECT user_id, firstname, surname, email FROM users WHERE email = ?', [email]);
 
     if (users.length === 0) {
         return res.status(401).send("Username not found. Please register with us before attempting login!");
