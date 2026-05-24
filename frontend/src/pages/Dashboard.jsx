@@ -22,7 +22,7 @@ function Dashboard() {
                     console.log(error);
                 }
 
-                console.log(data)
+                
             }
             fetchBookings();
         }
@@ -70,6 +70,9 @@ function Dashboard() {
                             </p>
                             <p>
                                 <strong>Check-out:</strong> {booking.check_out}
+                            </p>
+                            <p>
+                                <strong>Guests:</strong> {booking.guests}
                             </p>
                             <p>
                                 <strong>Price:</strong> €{booking.price} per night

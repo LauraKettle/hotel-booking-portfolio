@@ -52,6 +52,7 @@ function RoomDetails() {
 
     if (!savedUser){
       alert("Please log in to submit a rating");
+      return;
     }
 
     const currentUser = JSON.parse(savedUser);
