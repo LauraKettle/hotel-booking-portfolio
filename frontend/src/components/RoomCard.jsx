@@ -15,9 +15,11 @@ function RoomCard({room}) {
 
             <div className="room-card-body">
                 <h3>{room.name}</h3>
+
                 <p className="rating">
                     <img src={starIcon} alt="Star-rating" className="card-icon" />
-                    <span>5.0</span>
+
+                    <span>{room.averageRating || "No rating"}</span>
                 </p>
 
                 <p className="location">

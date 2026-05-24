@@ -68,10 +68,44 @@ app.get("/", (req, res) => {
 
  app.get("/api/rooms", async (req, res) => {
     try {
-        const [rooms] = await pool.query("SELECT * FROM rooms");
-        res.json(rooms);
-    } catch (error) {
-        res.status(500).json({ message: "Database error"});
+        const [rooms] = await pool.query(
+            `SELECT
+            rooms.room_id,
+            rooms.name, 
+            rooms.location, 
+            rooms.price,
+            rooms.description,
+            rooms.image,
+            rooms.bestSeller,
+            AVG(ratings.rating_value) AS averageRating
+            FROM rooms
+            LEFT JOIN ratings ON rooms.room_id = ratings.room_id
+            GROUP BY
+            rooms.room_id,
+            rooms.name,
+            rooms.location,
+            rooms.price,
+            rooms.description,
+            rooms.image,
+            rooms.bestSeller`
+        );
+
+        const formattedRooms = rooms.map((room) => ({
+            ...room,
+            averageRating: room.averageRating
+            ? Number(room.averageRating).toFixed(1)
+            : "No rating"
+        }));
+
+        console.log("rooms with average rating route running");
+        console.log(formattedRooms);
+
+        res.json(formattedRooms);
+    }   catch(error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Database error while fetching rooms"
+        });
     }
 });
 
