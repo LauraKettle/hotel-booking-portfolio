@@ -178,37 +178,47 @@ app.post("/api/ratings", async (req, res) => {
 
 //registration
 app.post('/api/register', async (req, res) => {
-  const { first_name, surname, email, password, signup } = req.body;
-  const hash_password = await bcrypt.hash(password, 10);
-  await pool.query('INSERT INTO users (firstname, surname, email, user_password, newsletter) VALUES (?, ?, ?, ?, ?)', [first_name, surname, email, hash_password, signup]);
-  res.sendStatus(201);
+    try{
+        const { first_name, surname, email, password, signup } = req.body;
+        const hash_password = await bcrypt.hash(password, 10);
+        await pool.query('INSERT INTO users (firstname, surname, email, user_password, newsletter) VALUES (?, ?, ?, ?, ?)', [first_name, surname, email, hash_password, signup]);
+        res.sendStatus(201);
+    }
+    catch (error) {
+        console.log(error);
+    }
 });
 //login
 app.post('/api/login', async (req, res) => {
-    const { email, password } = req.body;
-    const [users] = await pool.query('SELECT user_id, firstname, surname, email FROM users WHERE email = ?', [email]);
+    try{    
+        const { email, password } = req.body;
+        const [users] = await pool.query('SELECT user_id, firstname, surname, email FROM users WHERE email = ?', [email]);
 
-    if (users.length === 0) {
-        return res.status(401).send("Username not found. Please register with us before attempting login!");
-    }
-
-    const login_user = users[0];
-
-    const match = await bcrypt.compare(password, login_user.user_password);
-
-    if (!match) {
-        return res.status(401).send("Password is incorrect. Please try again!");
-    }
-
-    return res.status(200).json({
-        message: "Login successful",
-        user: {
-            id: login_user.user_id,
-            email: login_user.email,
-            firstname: login_user.firstname,
-            surname: login_user.surname
+        if (users.length === 0) {
+            return res.status(401).send("Username not found. Please register with us before attempting login!");
         }
-    });
+
+        const login_user = users[0];
+
+        const match = await bcrypt.compare(password, login_user.user_password);
+
+        if (!match) {
+            return res.status(401).send("Password is incorrect. Please try again!");
+        }
+
+        return res.status(200).json({
+            message: "Login successful",
+            user: {
+                id: login_user.user_id,
+                email: login_user.email,
+                firstname: login_user.firstname,
+                surname: login_user.surname
+            }
+        });
+    }
+    catch (error) {
+        console.log(error)
+    }
 });
 
 //Create booking API
