@@ -8,28 +8,31 @@ function Login() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const response = await fetch("http://localhost:5050/api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email, 
-                password
-            })
-            });
+        try{
+            const response = await fetch("http://localhost:5050/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email, 
+                    password
+                })
+                });
             if (response.status === 200) {
                 const data = await response.json();
                 sessionStorage.setItem("user", JSON.stringify(data.user));
-                console.log(sessionStorage.getItem("user"))
                 alert("Login Successful");
                 navigate("/dashboard");
             }
             else {
                 const message = await response.text();
-                console.log(response.status);
                 alert(message);
             }
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
     return(

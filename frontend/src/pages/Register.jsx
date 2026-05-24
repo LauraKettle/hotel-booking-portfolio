@@ -12,27 +12,31 @@ function Register() {
     
     async function handleSubmit(e) {
         e.preventDefault();
-        const response = await fetch("http://localhost:5050/api/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                first_name,
-                surname,
-                email,
-                password,
-                signup
-            })
-        });
-            if (response.status === 201) {
-                alert("Registration Successful");
-                navigate("/login");
-            }
-            else {
-                console.log(response.status);
-                alert("Registration Failed");
-            }
+        try{
+            const response = await fetch("http://localhost:5050/api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    first_name,
+                    surname,
+                    email,
+                    password,
+                    signup
+                })
+            });
+                if (response.status === 201) {
+                    alert("Registration Successful");
+                    navigate("/login");
+                }
+                else {
+                    alert("Registration Failed");
+                }
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
     return(
@@ -105,8 +109,6 @@ function Register() {
                             onChange={(e) => {
                                 const new_password = e.target.value
                                 setPassword(new_password);
-                                console.log(password);
-                                console.log(e.target.value);
                                 if (new_password.length < 6) {
                                 e.target.setCustomValidity("Password must be at least 6 characters");
                                 }
@@ -124,8 +126,6 @@ function Register() {
                             onChange={(e) => {
                                 const new_confirm_password = e.target.value;
                                 setPassword2(new_confirm_password);
-                                console.log(confirm_password);
-                                console.log(e.target.value);
                                 if (new_confirm_password !== password) {
                                     e.target.setCustomValidity("Password Must be Matching")
                                 }
