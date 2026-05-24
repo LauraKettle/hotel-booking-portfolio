@@ -192,7 +192,7 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     try{    
         const { email, password } = req.body;
-        const [users] = await pool.query('SELECT user_id, firstname, surname, email FROM users WHERE email = ?', [email]);
+        const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
 
         if (users.length === 0) {
             return res.status(401).send("Username not found. Please register with us before attempting login!");

@@ -52,7 +52,7 @@ function Home(){
 
       <section className='featured-hotels'>
         {rooms.map((room) => (
-          <RoomCard key={room.id} room={{...room, id: room.room_id, image: roomImages[Number(room.room_id)]}} />
+          <RoomCard key={room.room_id} room={{...room, id: room.room_id, image: roomImages[Number(room.room_id)]}} />
         ))}
 
       </section>
