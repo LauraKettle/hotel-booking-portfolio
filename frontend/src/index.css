@@ -571,8 +571,7 @@ body {
 
 .room-page {
   min-height: 100vh;
-  padding-top: 150px;
-  padding-bottom: 80px;
+  padding: 150px 40px 80px;
   background-color: #f4f1ec;
   font-family: Arial, sans-serif;
   display: flex;
@@ -587,14 +586,11 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.booking-details-card,
-.reservation-card {
+.booking-details-card {
   width: 100%;
   max-width: 1100px;
-  margin: 150px auto;
   background-color: white;
   border-radius: 16px;
-  
   padding: 30px;
   display: flex;
   align-items: center;
@@ -619,6 +615,50 @@ body {
   padding-left: 20px;
 }
 
+.booking-page{
+  min-height: 100vh;
+  padding: 140px 20px 80px;
+  background-color: #f4f1ec;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.reservation-card {
+  width: 100%;
+  max-width: 900px;
+
+  background-color: white;
+  border-radius: 18px;
+  padding: 40px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 50px;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.booking-left {
+  width: 230px;
+  padding-top: 8px;
+}
+
+.booking-left h1 {
+  font-size: 42px;
+  line-height: 1.1;
+  margin-bottom: 18px;
+  color: #111827;
+}
+
+.booking-left p {
+  color: #4b5563;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+
 .booking-primary-btn {
   display: inline-block;
   width: fit-content;
@@ -637,11 +677,9 @@ body {
 }
 
 
-.reservation-card {
-  max-width: 550px;
-}
-
 .reservation-form {
+  flex: 1;
+
   display: flex;
   flex-direction: column;
 }
@@ -649,14 +687,26 @@ body {
 .reservation-form label {
   margin-bottom: 6px;
   font-weight: bold;
+  color: #111827;
 }
 
 .reservation-form input {
+  width: 100%;
   margin-bottom: 18px;
-  padding: 12px;
-  border: 1px solid #ccc;
+  padding: 13px;
+
+  border: 1px solid #cbd5e1;
   border-radius: 8px;
+
+  font-size: 15px;
 }
+
+.reservation-form input:focus {
+  outline: none;
+  border-color: #1f2937;
+}
+
+
 
 /* rating on roomsdetails page */
 .rating-section{
@@ -901,61 +951,4 @@ button{
 
 /* footer media query end */
 
-/* Booking page Style amendments - Conor */
 
-.booking-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  min-height: 100vh;
-  padding: 40px 20px;
-
-  background-color: #f5f5f5;
-}
-
-.reservation-card {
-  width: 100%;
-  max-width: 600px;
-
-  background: white;
-  padding: 30px;
-
-  border-radius: 12px;
-
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.reservation-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.reservation-form input {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-
-  font-size: 16px;
-}
-
-.booking-primary-btn {
-  background-color: #222;
-  color: white;
-
-  padding: 12px;
-  border: none;
-  border-radius: 6px;
-
-  cursor: pointer;
-
-  font-size: 16px;
-  font-weight: bold;
-
-  transition: background-color 0.3s;
-}
-
-.booking-primary-btn:hover {
-  background-color: #444;
-}

@@ -56,11 +56,13 @@ function RoomBooking() {
   return (
     <div className="booking-page">
       <div className="reservation-card">
+        <div className="booking-left">
         <h1>Book Room {id}</h1>
 
         <p>
           Fill in your details below to reserve this room.
         </p>
+        </div>
 
         <form
           onSubmit={handleSubmit}
