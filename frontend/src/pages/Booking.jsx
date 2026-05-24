@@ -93,6 +93,7 @@ function RoomBooking() {
             name="checkIn"
             value={formData.checkIn}
             onChange={handleChange}
+            min={new Date().toISOString().split("T")[0]}
             required
           />
 
@@ -103,6 +104,7 @@ function RoomBooking() {
             name="checkOut"
             value={formData.checkOut}
             onChange={handleChange}
+            min={formData.checkIn}
             required
           />
 
