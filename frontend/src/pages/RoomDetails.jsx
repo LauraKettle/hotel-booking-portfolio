@@ -130,10 +130,11 @@ function RoomDetails() {
           </div>
 
 
-          <Link to={"/booking"}
-           className="booking-primary-btn">
-              Book This Room
-           </Link>
+       <Link to={`/booking/${room.id}`}>
+  <button className="booking-primary-btn">
+    Book This Room
+  </button>
+</Link>
           
         </div>
       </div>
